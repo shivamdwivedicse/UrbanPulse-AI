@@ -1,0 +1,81 @@
+{
+  "dataset": {
+    "source_file": "datasets/raw/Smart Bin Insights Data Set for Unveiling Waste Management Trends/Smart Bin.docx",
+    "cleaned_csv": "datasets/processed/smart_bin_cleaned.csv",
+    "raw_observations": 683,
+    "deduplicated_observations": 659,
+    "modeled_observations": 652,
+    "train_samples": 521,
+    "test_samples": 131,
+    "split_ratio": "80/20 chronological",
+    "train_date_range": [
+      "2018-07-02 12:00:00",
+      "2020-02-18 12:00:00"
+    ],
+    "test_date_range": [
+      "2020-02-19 12:00:00",
+      "2020-06-29 12:00:00"
+    ]
+  },
+  "features": {
+    "feature_names": [
+      "lag_1",
+      "lag_2",
+      "lag_3",
+      "lag_7",
+      "rolling_mean_3",
+      "rolling_mean_7",
+      "day_of_week",
+      "month"
+    ],
+    "feature_count": 8,
+    "target": "latestFullness"
+  },
+  "models": {
+    "persistence_baseline": {
+      "train": {
+        "MAE": 2.852207293666027,
+        "RMSE": 3.9018672630159754,
+        "R2": -1.0096774068051135
+      },
+      "test": {
+        "MAE": 1.786259541984733,
+        "RMSE": 2.9187469862024096,
+        "R2": -0.6602616516762059
+      }
+    },
+    "random_forest_regressor": {
+      "train": {
+        "MAE": 1.1587768584757034,
+        "RMSE": 1.5935064261460636,
+        "R2": 0.6648115800434611
+      },
+      "test": {
+        "MAE": 1.3437661904529363,
+        "RMSE": 1.6906145740713576,
+        "R2": 0.44297735024540996
+      }
+    },
+    "hist_gradient_boosting_regressor": {
+      "train": {
+        "MAE": 1.1916412316691807,
+        "RMSE": 1.6068801429156423,
+        "R2": 0.6591617429132216
+      },
+      "test": {
+        "MAE": 1.316629487184632,
+        "RMSE": 1.6212199393499362,
+        "R2": 0.487767050871606
+      }
+    }
+  },
+  "champion_model": {
+    "model_name": "HistGradientBoosting Regressor",
+    "test_mae": 1.316629487184632,
+    "test_rmse": 1.6212199393499362,
+    "test_r2": 0.487767050871606,
+    "outperforms_baseline": true,
+    "mae_reduction_vs_baseline_pct": 26.291255204621034,
+    "rmse_reduction_vs_baseline_pct": 44.45493401744594
+  }
+}

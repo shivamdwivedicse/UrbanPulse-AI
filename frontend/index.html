@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0b1220" />
+
+  <title>UrbanPulse AI | Smart Waste Intelligence</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="assets/css/style.css" />
+</head>
+
+<body>
+
+<div class="app-shell">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="sidebar">
+
+    <a class="brand" href="#">
+      <span class="brand-mark">U</span>
+
+      <span class="brand-copy">
+        <strong>UrbanPulse<span>AI</span></strong>
+        <small>SMART CITY INTELLIGENCE</small>
+      </span>
+    </a>
+
+    <div class="nav-label">WORKSPACE</div>
+
+    <nav class="nav-menu" aria-label="Main navigation">
+
+      <a class="nav-item active" href="#overview" data-section="overview">
+        <span class="nav-icon">▦</span> Overview
+      </a>
+
+      <a class="nav-item" href="#bins" data-section="bins">
+        <span class="nav-icon">▤</span>
+        Smart bins
+        <span class="nav-count" id="navBinCount">01</span>
+      </a>
+
+      <a class="nav-item" href="#map" data-section="map">
+        <span class="nav-icon">⌖</span> City map
+      </a>
+
+      <a class="nav-item" href="#intelligence" data-section="intelligence">
+        <span class="nav-icon">✳</span> AI intelligence
+      </a>
+
+      <a class="nav-item" href="#routes" data-section="routes">
+        <span class="nav-icon">⌁</span> Route optimizer
+      </a>
+
+      <a class="nav-item" href="#complaints" data-section="complaints">
+        <span class="nav-icon">▧</span> Complaints
+      </a>
+
+      <a class="nav-item" href="#analytics" data-section="analytics">
+        <span class="nav-icon">▥</span> Analytics
+      </a>
+
+    </nav>
+
+    <div class="sidebar-bottom">
+
+      <div class="system-card">
+
+        <div class="system-top">
+          <span class="pulse-dot" id="apiDot"></span>
+          <span>API STATUS</span>
+          <strong id="apiStatus">Checking...</strong>
+        </div>
+
+        <p>UrbanPulse backend</p>
+        <small id="apiEnvironment">Local development environment</small>
+
+      </div>
+
+      <div class="profile">
+
+        <div class="avatar">UP</div>
+
+        <div>
+          <strong>City Operations</strong>
+          <small>Prototype workspace</small>
+        </div>
+
+        <span class="profile-more">•••</span>
+
+      </div>
+
+    </div>
+
+  </aside>
+
+
+  <!-- MAIN CONTENT -->
+  <main class="main-content" id="overview">
+
+    <!-- TOPBAR -->
+    <header class="topbar">
+
+      <div class="topbar-left">
+
+        <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu">
+          ☰
+        </button>
+
+        <div class="breadcrumb">
+          Workspace <span>/</span> <strong>Overview</strong>
+        </div>
+
+      </div>
+
+      <div class="topbar-right">
+
+        <div class="live-pill" id="systemStatus">
+          <span class="pulse-dot"></span> SYSTEM ONLINE
+        </div>
+
+        <button class="icon-button" aria-label="Notifications">♧<i></i></button>
+
+        <div class="top-avatar">CO</div>
+
+      </div>
+
+    </header>
+
+
+    <section class="page-content">
+
+      <!-- PAGE HEADING -->
+      <div class="page-heading">
+
+        <div>
+
+          <div class="eyebrow">
+            SMART WASTE MANAGEMENT PLATFORM
+          </div>
+
+          <h1>City overview<span>.</span></h1>
+
+          <p>
+            Monitor, predict and optimize waste operations from one intelligent workspace.
+          </p>
+
+        </div>
+
+        <div class="heading-actions">
+
+          <span class="date-chip" id="todayDate">Loading date...</span>
+
+          <button class="primary-button" id="refreshBtn">
+            <span>↻</span> Refresh data
+          </button>
+
+        </div>
+
+      </div>
+
+
+      <!-- DATA NOTICE -->
+      <div class="notice-banner">
+
+        <span class="notice-icon">ⓘ</span>
+
+        <div>
+          <strong>Prototype data mode</strong>
+
+          <p>
+            This dashboard represents one historical smart-bin dataset (2018–2020).
+            It is not live city-wide IoT telemetry.
+          </p>
+        </div>
+
+        <span class="notice-tag">TRANSPARENT DATA</span>
+
+      </div>
+
+
+      <!-- PERFORMANCE -->
+      <div class="section-title-row">
+
+        <div>
+          <h2>Performance snapshot</h2>
+          <p>Model and dataset indicators</p>
+        </div>
+
+        <span class="subtle-label">HISTORICAL BASELINE</span>
+
+      </div>
+
+
+      <div class="metrics-grid">
+
+        <article class="metric-card">
+
+          <div class="metric-head">
+            <span class="metric-icon green">▤</span>
+            <span class="metric-label">Prototype bins</span>
+            <span class="metric-menu">•••</span>
+          </div>
+
+          <div class="metric-value" id="totalBins">--</div>
+
+          <div class="metric-foot">
+            <span class="status-tag neutral">Single-bin dataset</span>
+            <span class="metric-note">Available sample</span>
+          </div>
+
+        </article>
+
+
+        <article class="metric-card">
+
+          <div class="metric-head">
+            <span class="metric-icon blue">◷</span>
+            <span class="metric-label">Historical records</span>
+            <span class="metric-menu">•••</span>
+          </div>
+
+          <div class="metric-value" id="totalRecords">--</div>
+
+          <div class="metric-foot">
+            <span class="status-tag info">After deduplication</span>
+            <span class="metric-note">2018–2020</span>
+          </div>
+
+        </article>
+
+
+        <article class="metric-card">
+
+          <div class="metric-head">
+            <span class="metric-icon amber">⌁</span>
+            <span class="metric-label">Model test MAE</span>
+            <span class="metric-menu">•••</span>
+          </div>
+
+          <div class="metric-value">
+            1.32<span class="metric-unit">/ 10</span>
+          </div>
+
+          <div class="metric-foot">
+            <span class="status-tag good">HistGradientBoosting</span>
+            <span class="metric-note">Lower is better</span>
+          </div>
+
+        </article>
+
+
+        <article class="metric-card">
+
+          <div class="metric-head">
+            <span class="metric-icon violet">✳</span>
+            <span class="metric-label">Test R² score</span>
+            <span class="metric-menu">•••</span>
+          </div>
+
+          <div class="metric-value">0.488</div>
+
+          <div class="metric-foot">
+            <span class="status-tag info">Chronological split</span>
+            <span class="metric-note">Held-out test set</span>
+          </div>
+
+        </article>
+
+      </div>
+
+
+      <!-- MAIN CONTENT GRID -->
+      <div class="content-grid">
+
+
+        <!-- HISTORICAL CHART -->
+        <section class="panel chart-panel" id="analytics">
+
+          <div class="panel-heading">
+
+            <div>
+              <h3>Fill-level history</h3>
+              <p>Observed readings from the prototype bin</p>
+            </div>
+
+            <span class="panel-badge">HISTORICAL</span>
+
+          </div>
+
+          <div class="chart-legend">
+            <span><i class="legend-dot"></i> Observed fill level</span>
+            <span class="chart-scale">Scale: 0–10</span>
+          </div>
+
+          <div class="chart-wrap">
+
+            <div class="y-axis">
+              <span>10</span>
+              <span>8</span>
+              <span>6</span>
+              <span>4</span>
+              <span>2</span>
+              <span>0</span>
+            </div>
+
+            <div class="chart-area">
+
+              <div class="grid-lines">
+                <i></i><i></i><i></i><i></i><i></i><i></i>
+              </div>
+
+              <svg viewBox="0 0 760 220" preserveAspectRatio="none" role="img" aria-label="Illustrative historical fill level chart">
+
+                <defs>
+                  <linearGradient id="areaFill" x1="0" x2="0" y1="0" y2="1">
+                    <stop offset="0%" stop-color="#28c995" stop-opacity=".28"/>
+                    <stop offset="100%" stop-color="#28c995" stop-opacity="0"/>
+                  </linearGradient>
+                </defs>
+
+                <path class="chart-area-fill"
+                  d="M0 165 L35 165 L70 122 L105 165 L140 165 L175 78 L210 122 L245 165 L280 165 L315 34 L350 78 L385 122 L420 165 L455 165 L490 122 L525 165 L560 78 L595 122 L630 165 L665 165 L700 122 L735 165 L760 165 L760 220 L0 220 Z"/>
+
+                <path class="chart-line"
+                  d="M0 165 L35 165 L70 122 L105 165 L140 165 L175 78 L210 122 L245 165 L280 165 L315 34 L350 78 L385 122 L420 165 L455 165 L490 122 L525 165 L560 78 L595 122 L630 165 L665 165 L700 122 L735 165 L760 165"/>
+
+              </svg>
+
+              <div class="x-axis">
+                <span>Jun 2018</span>
+                <span>Dec 2018</span>
+                <span>Jun 2019</span>
+                <span>Dec 2019</span>
+                <span>Jun 2020</span>
+              </div>
+
+            </div>
+
+          </div>
+
+          <p class="chart-disclaimer">
+            Illustrative visualization. Actual historical series integration is pending.
+          </p>
+
+        </section>
+
+
+        <!-- SMART BIN -->
+        <section class="panel bin-panel" id="bins">
+
+          <div class="panel-heading">
+
+            <div>
+              <h3>Prototype bin status</h3>
+              <p>Registered historical sample</p>
+            </div>
+
+            <span class="online-tag">
+              <i></i> DATA AVAILABLE
+            </span>
+
+          </div>
+
+
+          <div class="bin-identity">
+
+            <div class="bin-illustration">
+              <span>▤</span>
+              <i></i>
+            </div>
+
+            <div>
+              <strong id="binName">BIN-PROTOTYPE-01</strong>
+              <small>Smart bin · Historical dataset</small>
+            </div>
+
+          </div>
+
+
+          <div class="fill-level-row">
+
+            <span>Latest recorded fill level</span>
+
+            <strong>
+              <span id="latestFill">--</span>
+              <small>/ 10</small>
+            </strong>
+
+          </div>
+
+
+          <div class="progress-track">
+            <span id="fillProgress" style="width:0%"></span>
+          </div>
+
+
+          <div class="bin-details">
+
+            <div>
+              <small>Last observation</small>
+              <strong id="lastObservation">Loading...</strong>
+            </div>
+
+            <div>
+              <small>Observed scale</small>
+              <strong>0 – 10</strong>
+            </div>
+
+            <div>
+              <small>Data source</small>
+              <strong>Historical CSV</strong>
+            </div>
+
+            <div>
+              <small>Sensor connection</small>
+              <strong class="muted-value">Not available</strong>
+            </div>
+
+          </div>
+
+
+          <button class="outline-button" id="viewBinBtn">
+            View bin details <span>→</span>
+          </button>
+
+        </section>
+
+      </div>
+
+
+      <!-- BOTTOM GRID -->
+      <div class="bottom-grid">
+
+
+        <!-- ML INTELLIGENCE -->
+        <section class="panel model-panel" id="intelligence">
+
+          <div class="panel-heading">
+
+            <div>
+              <h3>ML intelligence</h3>
+              <p>Champion model evaluation</p>
+            </div>
+
+            <span class="model-chip">SCIKIT-LEARN</span>
+
+          </div>
+
+
+          <div class="model-name">
+
+            <div class="model-symbol">✳</div>
+
+            <div>
+              <strong>HistGradientBoosting</strong>
+              <small>Fill-level prediction model</small>
+            </div>
+
+            <span class="champion">CHAMPION</span>
+
+          </div>
+
+
+          <div class="model-stats">
+
+            <div>
+              <small>Mean absolute error</small>
+              <strong>1.3166</strong>
+            </div>
+
+            <div>
+              <small>Root mean squared error</small>
+              <strong>1.6212</strong>
+            </div>
+
+            <div>
+              <small>R² score</small>
+              <strong>0.4878</strong>
+            </div>
+
+          </div>
+
+
+          <!-- ACTUAL ML PREDICTION -->
+          <div class="prediction-box">
+    <div>
+        <span class="card-label">AI FILL-LEVEL FORECAST</span>
+        <h2>
+            <span id="predictedFill">--</span>
+            <small>/ 10</small>
+        </h2>
+    </div>
+
+    <div class="prediction-info">
+        <span id="predictionStatus">Waiting...</span>
+        <small id="predictionDate">Forecast date: --</small>
+    </div>
+</div>
+
+<button id="generatePredictionBtn" class="refresh-btn">
+    ⚡ Generate Prediction
+</button>   
+
+
+          <p class="small-note">
+            Model evaluated on a chronological held-out test set.
+            Predictions are bounded to the physical 0–10 scale.
+          </p>
+
+        </section>
+
+
+        <!-- CITY MAP -->
+        <section class="panel activity-panel" id="map">
+
+          <div class="panel-heading">
+
+            <div>
+              <h3>City operations map</h3>
+              <p>Geospatial layer status</p>
+            </div>
+
+            <span class="panel-badge muted-badge">COMING NEXT</span>
+
+          </div>
+
+
+          <div class="map-placeholder">
+
+            <div class="map-grid"></div>
+
+            <div class="map-pin">⌖</div>
+
+            <div class="map-center-label">
+              <strong>Map integration pending</strong>
+              <small>Leaflet + OpenStreetMap will be connected next.</small>
+            </div>
+
+            <span class="map-coord">
+              NO VERIFIED BIN COORDINATES
+            </span>
+
+          </div>
+
+        </section>
+
+      </div>
+
+
+      <!-- FOOTER -->
+      <footer class="footer">
+
+        <span>© 2026 UrbanPulse AI</span>
+
+        <span>
+          Built for smarter, cleaner cities <b>●</b>
+        </span>
+
+        <span>Prototype v1.0.0</span>
+
+      </footer>
+
+    </section>
+
+  </main>
+
+</div>
+
+
+<!-- TOAST -->
+<div class="toast" id="toast" role="status"></div>
+
+
+<script src="assets/js/app.js"></script>
+
+</body>
+</html>
