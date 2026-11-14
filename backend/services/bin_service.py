@@ -28,9 +28,12 @@ class BinService:
             data_csv_path = self.root / "datasets" / "processed" / "smart_bin_cleaned.csv"
         self.data_csv_path = Path(data_csv_path)
 
-        # Initialize predictor instance
+        # Initialize predictor instance without blocking historical data endpoints
         if predictor is None:
-            self.predictor = SmartBinPredictor()
+            try:
+                self.predictor = SmartBinPredictor()
+            except Exception:
+                self.predictor = None
         else:
             self.predictor = predictor
 
@@ -55,6 +58,13 @@ class BinService:
 
     def get_model_status(self) -> Dict[str, Any]:
         """Return operational status of the ML model."""
+        if self.predictor is None:
+            return {
+                "loaded": False,
+                "model_name": "unavailable",
+                "target_name": "latestFullness",
+                "features": [],
+            }
         return {
             "loaded": self.predictor.model is not None,
             "model_name": self.predictor.champion_name,
@@ -97,6 +107,34 @@ class BinService:
             )
         return self.get_available_bins()[0]
 
+    def get_bin_history(self, bin_id: str) -> Dict[str, Any]:
+        """Return cleaned historical observations for a prototype bin. No fabricated rows."""
+        bin_info = self.get_bin_by_id(bin_id)
+        fill_series = self._df_history["latestFullness"]
+        date_series = self._df_history["datetime"]
+
+        observations = [
+            {
+                "datetime": row["datetime"].strftime("%Y-%m-%d %H:%M:%S"),
+                "fill_level": float(row["latestFullness"]),
+            }
+            for row in self._df_history[["datetime", "latestFullness"]].to_dict(orient="records")
+        ]
+
+        return {
+            "bin_id": bin_info["bin_id"],
+            "data_source": bin_info["data_source"],
+            "is_live_iot": False,
+            "fill_level_scale": bin_info["fill_level_scale"],
+            "total_observations": int(len(self._df_history)),
+            "start_date": date_series.iloc[0].strftime("%Y-%m-%d %H:%M:%S"),
+            "end_date": date_series.iloc[-1].strftime("%Y-%m-%d %H:%M:%S"),
+            "min_fill_level": float(fill_series.min()),
+            "max_fill_level": float(fill_series.max()),
+            "average_fill_level": round(float(fill_series.mean()), 4),
+            "observations": observations,
+        }
+
     def predict_fill_level(self, bin_id: str) -> Dict[str, Any]:
         """
         Construct the latest historical feature vector and generate fill-level forecast.
@@ -127,6 +165,11 @@ class BinService:
         }
 
         # 4. Generate prediction via SmartBinPredictor
+        if self.predictor is None:
+            raise HTTPException(
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                detail="Prediction engine failed to process the feature inputs.",
+            )
         try:
             pred_result = self.predictor.predict_single(features_used)
         except Exception as e:

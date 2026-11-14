@@ -25,3 +25,22 @@ class BinInfoSchema(BaseModel):
 class BinListResponseSchema(BaseModel):
     total_bins: int = Field(..., example=1)
     bins: List[BinInfoSchema]
+
+
+class HistoryObservationSchema(BaseModel):
+    datetime: str = Field(..., description="Historical observation timestamp")
+    fill_level: float = Field(..., description="Recorded fill level on the 0–10 scale")
+
+
+class BinHistoryResponseSchema(BaseModel):
+    bin_id: str = Field(..., example="BIN-PROTOTYPE-01")
+    data_source: str = Field(..., example="Research Dataset (Smart Bin Insights, 2018-2020)")
+    is_live_iot: bool = Field(default=False, description="False for historical research data")
+    fill_level_scale: str = Field(default="0 to 10 (0=Empty, 10=Full)")
+    total_observations: int = Field(..., description="Number of cleaned historical readings")
+    start_date: str = Field(..., description="Earliest observation timestamp")
+    end_date: str = Field(..., description="Latest observation timestamp")
+    min_fill_level: float = Field(..., description="Minimum recorded fill level")
+    max_fill_level: float = Field(..., description="Maximum recorded fill level")
+    average_fill_level: float = Field(..., description="Mean recorded fill level")
+    observations: List[HistoryObservationSchema]

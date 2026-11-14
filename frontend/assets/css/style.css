@@ -108,6 +108,9 @@ h1 span { color: var(--green); }
 .panel-heading p { margin: 0; color: #7f94a8; font-size: 9px; }
 .panel-badge, .model-chip { padding: 5px 7px; border: 1px solid rgba(40,201,149,.18); border-radius: 4px; color: var(--green); background: rgba(40,201,149,.07); font-size: 8px; font-weight: 700; letter-spacing: .8px; white-space: nowrap; }
 .chart-legend { display: flex; justify-content: space-between; margin: 23px 0 9px; color: #8da1b5; font-size: 9px; }
+.chart-stats { display: flex; flex-wrap: wrap; gap: 12px 18px; margin: 0 0 12px; color: #8da1b5; font-size: 9px; }
+.chart-stats strong { color: #d5e4ee; font-weight: 700; }
+.chart-disclaimer.error { color: #ef9a9a; }
 .legend-dot { display: inline-block; width: 7px; height: 7px; margin-right: 6px; border-radius: 50%; background: var(--green); }
 .chart-scale { color: #647b90; }
 .chart-wrap { height: 184px; display: flex; gap: 10px; }

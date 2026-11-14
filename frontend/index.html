@@ -286,16 +286,23 @@
 
             <div>
               <h3>Fill-level history</h3>
-              <p>Observed readings from the prototype bin</p>
+              <p>Research observations from the prototype bin (2018–2020)</p>
             </div>
 
-            <span class="panel-badge">HISTORICAL</span>
+            <span class="panel-badge">HISTORICAL RESEARCH DATA</span>
 
           </div>
 
           <div class="chart-legend">
             <span><i class="legend-dot"></i> Observed fill level</span>
-            <span class="chart-scale">Scale: 0–10</span>
+            <span class="chart-scale">Scale: 0–10 · not live IoT</span>
+          </div>
+
+          <div class="chart-stats" id="historyStats">
+            <span>Observations: <strong id="historyCount">--</strong></span>
+            <span>Min: <strong id="historyMin">--</strong></span>
+            <span>Max: <strong id="historyMax">--</strong></span>
+            <span>Average: <strong id="historyAvg">--</strong></span>
           </div>
 
           <div class="chart-wrap">
@@ -315,7 +322,7 @@
                 <i></i><i></i><i></i><i></i><i></i><i></i>
               </div>
 
-              <svg viewBox="0 0 760 220" preserveAspectRatio="none" role="img" aria-label="Illustrative historical fill level chart">
+              <svg id="historyChart" viewBox="0 0 760 220" preserveAspectRatio="none" role="img" aria-label="Historical smart-bin fill level, 2018 to 2020 research data">
 
                 <defs>
                   <linearGradient id="areaFill" x1="0" x2="0" y1="0" y2="1">
@@ -324,28 +331,26 @@
                   </linearGradient>
                 </defs>
 
-                <path class="chart-area-fill"
-                  d="M0 165 L35 165 L70 122 L105 165 L140 165 L175 78 L210 122 L245 165 L280 165 L315 34 L350 78 L385 122 L420 165 L455 165 L490 122 L525 165 L560 78 L595 122 L630 165 L665 165 L700 122 L735 165 L760 165 L760 220 L0 220 Z"/>
+                <path id="historyArea" class="chart-area-fill" d=""/>
 
-                <path class="chart-line"
-                  d="M0 165 L35 165 L70 122 L105 165 L140 165 L175 78 L210 122 L245 165 L280 165 L315 34 L350 78 L385 122 L420 165 L455 165 L490 122 L525 165 L560 78 L595 122 L630 165 L665 165 L700 122 L735 165 L760 165"/>
+                <path id="historyLine" class="chart-line" d=""/>
 
               </svg>
 
-              <div class="x-axis">
-                <span>Jun 2018</span>
-                <span>Dec 2018</span>
-                <span>Jun 2019</span>
-                <span>Dec 2019</span>
-                <span>Jun 2020</span>
+              <div class="x-axis" id="historyXAxis">
+                <span>--</span>
+                <span>--</span>
+                <span>--</span>
+                <span>--</span>
+                <span>--</span>
               </div>
 
             </div>
 
           </div>
 
-          <p class="chart-disclaimer">
-            Illustrative visualization. Actual historical series integration is pending.
+          <p class="chart-disclaimer" id="historyDisclaimer">
+            Historical research dataset (2018–2020). These are cleaned observed readings, not live IoT telemetry.
           </p>
 
         </section>

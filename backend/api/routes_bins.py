@@ -3,7 +3,7 @@ Smart Bin fleet and prediction endpoints.
 """
 
 from fastapi import APIRouter, Depends, Path, status
-from backend.schemas.bin import BinInfoSchema, BinListResponseSchema
+from backend.schemas.bin import BinHistoryResponseSchema, BinInfoSchema, BinListResponseSchema
 from backend.schemas.prediction import ErrorResponseSchema, FillLevelPredictionResponseSchema
 from backend.services.bin_service import BinService, get_bin_service
 
@@ -23,6 +23,27 @@ def list_bins(service: BinService = Depends(get_bin_service)) -> BinListResponse
         total_bins=len(bins_data),
         bins=[BinInfoSchema(**b) for b in bins_data],
     )
+
+
+@router.get(
+    "/{bin_id}/history",
+    response_model=BinHistoryResponseSchema,
+    status_code=status.HTTP_200_OK,
+    summary="Historical Fill-Level Observations",
+    description=(
+        "Return cleaned historical fill-level observations for a prototype bin. "
+        "This is research telemetry from 2018–2020, not live IoT data."
+    ),
+    responses={
+        404: {"model": ErrorResponseSchema, "description": "Bin not found"},
+    },
+)
+def get_bin_history(
+    bin_id: str = Path(..., description="Prototype Bin Identifier (e.g., 'BIN-PROTOTYPE-01')"),
+    service: BinService = Depends(get_bin_service),
+) -> BinHistoryResponseSchema:
+    history_data = service.get_bin_history(bin_id)
+    return BinHistoryResponseSchema(**history_data)
 
 
 @router.get(

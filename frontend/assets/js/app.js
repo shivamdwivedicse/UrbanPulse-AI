@@ -181,6 +181,126 @@ async function loadBins() {
 }
 
 // ========================================
+// HISTORICAL FILL-LEVEL CHART
+// ========================================
+
+const CHART_WIDTH = 760;
+const CHART_HEIGHT = 220;
+const FILL_SCALE_MAX = 10;
+
+function parseObservationTime(value) {
+    return new Date(String(value).replace(" ", "T")).getTime();
+}
+
+function formatAxisDate(value) {
+    const date = new Date(String(value).replace(" ", "T"));
+    return date.toLocaleDateString("en-IN", {
+        month: "short",
+        year: "numeric"
+    });
+}
+
+function buildChartPaths(observations) {
+    if (!observations || observations.length === 0) {
+        return { line: "", area: "" };
+    }
+
+    const times = observations.map(item => parseObservationTime(item.datetime));
+    const start = times[0];
+    const span = Math.max(times[times.length - 1] - start, 1);
+
+    const points = observations.map((item, index) => {
+        const x = ((times[index] - start) / span) * CHART_WIDTH;
+        const fill = Math.max(0, Math.min(FILL_SCALE_MAX, Number(item.fill_level)));
+        const y = CHART_HEIGHT - (fill / FILL_SCALE_MAX) * CHART_HEIGHT;
+        return `${x.toFixed(2)} ${y.toFixed(2)}`;
+    });
+
+    const line = `M ${points.join(" L ")}`;
+    const area = `${line} L ${CHART_WIDTH} ${CHART_HEIGHT} L 0 ${CHART_HEIGHT} Z`;
+    return { line, area };
+}
+
+function renderHistoryAxis(history) {
+    const axis = document.getElementById("historyXAxis");
+    if (!axis) return;
+
+    const start = parseObservationTime(history.start_date);
+    const end = parseObservationTime(history.end_date);
+    const span = Math.max(end - start, 1);
+    const ticks = 5;
+
+    axis.innerHTML = "";
+    for (let i = 0; i < ticks; i += 1) {
+        const stamp = new Date(start + (span * i) / (ticks - 1));
+        const label = document.createElement("span");
+        label.textContent = stamp.toLocaleDateString("en-IN", {
+            month: "short",
+            year: "numeric"
+        });
+        axis.appendChild(label);
+    }
+}
+
+function renderHistoryChart(history) {
+    const areaPath = document.getElementById("historyArea");
+    const linePath = document.getElementById("historyLine");
+    const paths = buildChartPaths(history.observations);
+
+    if (areaPath) areaPath.setAttribute("d", paths.area);
+    if (linePath) linePath.setAttribute("d", paths.line);
+
+    renderHistoryAxis(history);
+
+    updateText(
+        "historyCount",
+        Number(history.total_observations).toLocaleString("en-IN")
+    );
+    updateText("historyMin", Number(history.min_fill_level).toFixed(1));
+    updateText("historyMax", Number(history.max_fill_level).toFixed(1));
+    updateText("historyAvg", Number(history.average_fill_level).toFixed(2));
+
+    const disclaimer = document.getElementById("historyDisclaimer");
+    if (disclaimer) {
+        disclaimer.classList.remove("error");
+        disclaimer.textContent = (
+            "Historical research dataset (2018–2020). " +
+            `${formatAxisDate(history.start_date)} to ${formatAxisDate(history.end_date)}. ` +
+            "These are cleaned observed readings, not live IoT telemetry."
+        );
+    }
+}
+
+function clearHistoryChart(message) {
+    const areaPath = document.getElementById("historyArea");
+    const linePath = document.getElementById("historyLine");
+    if (areaPath) areaPath.setAttribute("d", "");
+    if (linePath) linePath.setAttribute("d", "");
+
+    updateText("historyCount", "--");
+    updateText("historyMin", "--");
+    updateText("historyMax", "--");
+    updateText("historyAvg", "--");
+
+    const disclaimer = document.getElementById("historyDisclaimer");
+    if (disclaimer) {
+        disclaimer.classList.add("error");
+        disclaimer.textContent = message;
+    }
+}
+
+async function loadHistory() {
+    const history = await fetchAPI(`/api/v1/bins/${BIN_ID}/history`);
+
+    if (!history.observations || history.observations.length === 0) {
+        throw new Error("No historical observations returned.");
+    }
+
+    renderHistoryChart(history);
+    return history;
+}
+
+// ========================================
 // GENERATE ML PREDICTION
 // ========================================
 
@@ -232,7 +352,22 @@ async function loadDashboard() {
 
         await loadBins();
 
-        await loadPrediction();
+        try {
+            await loadPrediction();
+        } catch (predictionError) {
+            console.error("Prediction failed:", predictionError);
+            updateText("predictionStatus", "Prediction failed");
+            updateText("predictedFill", "--");
+        }
+
+        try {
+            await loadHistory();
+        } catch (historyError) {
+            console.error("History chart failed:", historyError);
+            clearHistoryChart(
+                "Unable to load historical observations. Check the backend history endpoint."
+            );
+        }
 
         console.log(
             "UrbanPulse AI dashboard loaded successfully."
