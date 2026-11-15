@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#F6F7F2" />
+  <meta name="description" content="UrbanPulse AI brings historical waste intelligence, route planning and citizen reports into one civic operations workspace." />
+  <title>UrbanPulse AI — Civic Intelligence</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/assets/css/style.css" />
+</head>
+<body class="home-body">
+  <header class="home-nav">
+    <a class="home-brand" href="/" aria-label="UrbanPulse AI home">
+      <span class="brand-mark" aria-hidden="true">U</span>
+      <span><strong>URBANPULSE <em>AI</em></strong><small>CIVIC INTELLIGENCE</small></span>
+    </a>
+    <nav aria-label="Homepage navigation">
+      <a href="#platform">Platform</a>
+      <a href="#workflow">How it works</a>
+    </nav>
+    <a class="button button-dark home-launch" href="/dashboard">Launch Operations Console <span aria-hidden="true">↗</span></a>
+  </header>
+
+  <main>
+    <section class="home-hero">
+      <div class="hero-copy">
+        <p class="eyebrow"><span class="eyebrow-dot"></span> URBANPULSE — CIVIC INTELLIGENCE</p>
+        <h1>Building cleaner cities through <span>intelligent waste management.</span></h1>
+        <p class="hero-description">AI-powered waste intelligence, smart collection planning and citizen-driven urban operations in one unified platform.</p>
+        <div class="hero-actions">
+          <a class="button button-dark" href="/dashboard">Launch Operations Console <span aria-hidden="true">↗</span></a>
+          <a class="button button-light" href="#platform">Explore Platform <span aria-hidden="true">↓</span></a>
+        </div>
+        <div class="hero-note"><span class="note-mark">i</span><span>Research prototype · Historical bin observations · No live city-wide sensor network</span></div>
+      </div>
+      <div class="hero-art" aria-label="Illustration of connected civic services">
+        <div class="art-caption"><span>PLATFORM OVERVIEW</span><span>01 / 04</span></div>
+        <div class="art-orbit orbit-one"></div>
+        <div class="art-orbit orbit-two"></div>
+        <div class="art-core"><span class="core-mark">U</span><span>URBAN<br />PULSE</span></div>
+        <div class="art-node node-bins"><span class="node-symbol">▤</span><strong>Historical<br />bin intelligence</strong></div>
+        <div class="art-node node-route"><span class="node-symbol">⌁</span><strong>Collection<br />planning</strong></div>
+        <div class="art-node node-citizen"><span class="node-symbol">○</span><strong>Citizen<br />reports</strong></div>
+        <div class="art-node node-ai"><span class="node-symbol">✳</span><strong>Waste<br />image analysis</strong></div>
+        <div class="art-foot"><span>CONNECTED WORKFLOWS</span><span class="art-foot-line"></span><span>DATA WITH CONTEXT</span></div>
+      </div>
+    </section>
+
+    <section class="home-section platform-section" id="platform">
+      <div class="home-section-heading">
+        <div><p class="eyebrow">ONE CIVIC WORKSPACE</p><h2>Operational clarity, built around real data.</h2></div>
+        <p>Each capability is connected to its existing data source, with research and illustrative outputs labelled clearly.</p>
+      </div>
+      <div class="capability-grid">
+        <article class="capability-card capability-featured">
+          <span class="capability-index">01 / INTELLIGENCE</span><span class="capability-icon">◷</span>
+          <h3>Understand historical patterns</h3>
+          <p>Explore 659 cleaned observations from a single prototype bin and an explainable next-observation estimate.</p>
+          <span class="capability-tag">HISTORICAL DATA · 2018–2020</span>
+        </article>
+        <article class="capability-card">
+          <span class="capability-index">02 / VISION</span><span class="capability-icon">✳</span>
+          <h3>Assess visible waste</h3>
+          <p>Analyze an uploaded image for waste type, visible accumulation and severity, with uncertainty stated when evidence is limited.</p>
+          <span class="capability-tag">PROVIDER-DEPENDENT</span>
+        </article>
+        <article class="capability-card">
+          <span class="capability-index">03 / ROUTES</span><span class="capability-icon">⌁</span>
+          <h3>Plan a collection sequence</h3>
+          <p>Use OR-Tools to order editable stops with a Haversine distance approximation—not road navigation.</p>
+          <span class="capability-tag">ILLUSTRATIVE LOCATIONS</span>
+        </article>
+        <article class="capability-card">
+          <span class="capability-index">04 / CITIZENS</span><span class="capability-icon">○</span>
+          <h3>Bring reports into the workflow</h3>
+          <p>Register citizen complaints, review their status and retain records in a project-local SQLite database.</p>
+          <span class="capability-tag">DATABASE-BACKED</span>
+        </article>
+      </div>
+    </section>
+
+    <section class="home-section home-feature-section">
+      <div class="feature-copy">
+        <p class="eyebrow">SMART BIN INTELLIGENCE</p>
+        <h2>Historical observations. Transparent predictions.</h2>
+        <p>The prototype uses a trained HistGradientBoosting model and engineered time-series features. Its estimate is on a 0–10 scale and extends the last historical observation by one calendar observation.</p>
+        <ul class="feature-list">
+          <li><span>✓</span> Cleaned dataset and date range shown in the console</li>
+          <li><span>✓</span> Model output bounded to its documented 0–10 scale</li>
+          <li><span>✓</span> No representation as live sensor telemetry</li>
+        </ul>
+      </div>
+      <div class="feature-visual history-visual">
+        <div class="visual-topline"><span>PROTOTYPE BIN</span><span>MODEL WORKFLOW</span></div>
+        <div class="visual-process" aria-label="Historical observations inform time-series features and a next-observation estimate">
+          <div class="process-node"><span class="process-icon">◷</span><strong>Historical<br />observations</strong><small>Cleaned CSV</small></div>
+          <span class="process-connector" aria-hidden="true">→</span>
+          <div class="process-node"><span class="process-icon">∑</span><strong>Time-series<br />features</strong><small>Lags · rolling means</small></div>
+          <span class="process-connector" aria-hidden="true">→</span>
+          <div class="process-node process-node-result"><span class="process-icon">⌁</span><strong>Next-observation<br />estimate</strong><small>0–10 fill-level scale</small></div>
+        </div>
+        <div class="visual-legend"><span>Research dataset · 2018–2020</span><strong>One prototype bin</strong></div>
+        <p class="visual-disclaimer">No live IoT telemetry · the console displays the actual historical observations.</p>
+      </div>
+    </section>
+
+    <section class="home-section home-feature-section feature-reverse">
+      <div class="feature-copy">
+        <p class="eyebrow">AI WASTE ANALYSIS</p>
+        <h2>Image-based assessment, not invented certainty.</h2>
+        <p>Gemini Vision analyzes only the evidence visible in a submitted image. The service validates image content and returns a structured assessment with an explanation and recommended action.</p>
+        <div class="feature-callout"><span>!</span><p>Provider access and availability can vary. When analysis is unavailable, the console reports the issue instead of fabricating a result.</p></div>
+      </div>
+      <div class="feature-visual waste-visual" aria-hidden="true">
+        <div class="analysis-frame"><div class="frame-corner"></div><div class="frame-object"></div><div class="frame-shadow"></div><span class="frame-label">IMAGE EVIDENCE</span></div>
+        <div class="analysis-result"><span class="result-label">ASSESSMENT</span><strong>Visible evidence only</strong><span class="result-rule"></span><span class="result-label">CONFIDENCE</span><strong class="result-uncertain">Uncertainty is disclosed</strong></div>
+      </div>
+    </section>
+
+    <section class="home-section route-citizen-section">
+      <article class="split-capability">
+        <div class="split-icon">⌁</div><p class="eyebrow">COLLECTION OPTIMIZATION</p>
+        <h2>Sequence stops with distance context.</h2>
+        <p>OR-Tools finds a route over supplied points. The demo points are explicitly illustrative; estimates use straight-line Haversine distance and are not road-navigation directions.</p>
+        <a href="/dashboard#routes">Explore route planning <span aria-hidden="true">→</span></a>
+      </article>
+      <article class="split-capability citizen-split">
+        <div class="split-icon">○</div><p class="eyebrow">CITIZEN COMPLAINTS</p>
+        <h2>From submitted report to recorded status.</h2>
+        <p>Citizens can describe a concern and optionally attach a validated photo. Staff can review records and update status; dashboard counts come from SQLite.</p>
+        <a href="/dashboard#complaints">Open complaint register <span aria-hidden="true">→</span></a>
+      </article>
+    </section>
+
+    <section class="home-section workflow-section" id="workflow">
+      <div class="workflow-heading"><p class="eyebrow">HOW THE PLATFORM WORKS</p><h2>One workflow. Clear data boundaries.</h2></div>
+      <div class="workflow-steps">
+        <article><span>01</span><h3>Observe</h3><p>Review cleaned historical readings and their source period.</p></article>
+        <article><span>02</span><h3>Assess</h3><p>Request a waste image assessment when the provider is available.</p></article>
+        <article><span>03</span><h3>Plan</h3><p>Optimize an editable route with a documented distance approximation.</p></article>
+        <article><span>04</span><h3>Respond</h3><p>Record citizen reports and track their actual stored status.</p></article>
+      </div>
+    </section>
+
+    <section class="home-cta">
+      <div><p class="eyebrow">URBANPULSE — CIVIC INTELLIGENCE</p><h2>Explore the operations workspace.</h2><p>See the data, methods and limitations behind each workflow.</p></div>
+      <a class="button button-lime" href="/dashboard">Launch Operations Console <span aria-hidden="true">↗</span></a>
+    </section>
+  </main>
+  <footer class="home-footer"><a class="home-brand" href="/"><span class="brand-mark">U</span><span><strong>URBANPULSE <em>AI</em></strong><small>CIVIC INTELLIGENCE</small></span></a><p>Research prototype for smart-city waste operations.</p><a href="/dashboard">Operations Console <span aria-hidden="true">↗</span></a></footer>
+</body>
+</html>

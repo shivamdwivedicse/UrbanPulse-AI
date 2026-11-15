@@ -5,5 +5,7 @@ __pycache__/
 .ipynb_checkpoints/
 models/*.pkl
 datasets/raw/
+backend/database/*.sqlite3
+backend/uploads/complaints/
 .vscode/
 .DS_Store

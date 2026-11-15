@@ -3,586 +3,377 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="theme-color" content="#0b1220" />
-
-  <title>UrbanPulse AI | Smart Waste Intelligence</title>
-
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-
-  <link rel="stylesheet" href="assets/css/style.css" />
+  <meta name="theme-color" content="#F6F7F2" />
+  <meta name="description" content="UrbanPulse AI civic intelligence operations console." />
+  <title>Operations Console — UrbanPulse AI</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+    crossorigin=""
+  />
+  <link rel="stylesheet" href="/assets/css/style.css" />
 </head>
-
-<body>
-
-<div class="app-shell">
-
-  <!-- SIDEBAR -->
-  <aside class="sidebar" id="sidebar">
-
-    <a class="brand" href="#">
-      <span class="brand-mark">U</span>
-
-      <span class="brand-copy">
-        <strong>UrbanPulse<span>AI</span></strong>
-        <small>SMART CITY INTELLIGENCE</small>
-      </span>
-    </a>
-
-    <div class="nav-label">WORKSPACE</div>
-
-    <nav class="nav-menu" aria-label="Main navigation">
-
-      <a class="nav-item active" href="#overview" data-section="overview">
-        <span class="nav-icon">▦</span> Overview
-      </a>
-
-      <a class="nav-item" href="#bins" data-section="bins">
-        <span class="nav-icon">▤</span>
-        Smart bins
-        <span class="nav-count" id="navBinCount">01</span>
-      </a>
-
-      <a class="nav-item" href="#map" data-section="map">
-        <span class="nav-icon">⌖</span> City map
-      </a>
-
-      <a class="nav-item" href="#intelligence" data-section="intelligence">
-        <span class="nav-icon">✳</span> AI intelligence
-      </a>
-
-      <a class="nav-item" href="#routes" data-section="routes">
-        <span class="nav-icon">⌁</span> Route optimizer
-      </a>
-
-      <a class="nav-item" href="#complaints" data-section="complaints">
-        <span class="nav-icon">▧</span> Complaints
-      </a>
-
-      <a class="nav-item" href="#analytics" data-section="analytics">
-        <span class="nav-icon">▥</span> Analytics
-      </a>
-
-    </nav>
-
-    <div class="sidebar-bottom">
-
-      <div class="system-card">
-
-        <div class="system-top">
-          <span class="pulse-dot" id="apiDot"></span>
-          <span>API STATUS</span>
-          <strong id="apiStatus">Checking...</strong>
-        </div>
-
-        <p>UrbanPulse backend</p>
-        <small id="apiEnvironment">Local development environment</small>
-
+<body class="dashboard-body">
+  <div class="app-shell" id="appShell">
+    <aside class="sidebar" id="sidebar" aria-label="Operations navigation">
+      <div class="sidebar-brand-row">
+        <a class="brand" href="/" aria-label="UrbanPulse AI homepage">
+          <span class="brand-mark" aria-hidden="true">U</span>
+          <span class="brand-copy"><strong>URBANPULSE <em>AI</em></strong><small>CIVIC INTELLIGENCE</small></span>
+        </a>
+        <button class="sidebar-collapse" id="sidebarCollapseBtn" type="button" aria-label="Collapse navigation" title="Collapse navigation">‹</button>
       </div>
 
-      <div class="profile">
-
-        <div class="avatar">UP</div>
-
-        <div>
-          <strong>City Operations</strong>
-          <small>Prototype workspace</small>
-        </div>
-
-        <span class="profile-more">•••</span>
-
+      <div class="workspace-switcher">
+        <span class="workspace-symbol">UP</span>
+        <span><strong>Research workspace</strong><small>DEMO ENVIRONMENT</small></span>
+        <span class="workspace-chevron" aria-hidden="true">⌄</span>
       </div>
 
-    </div>
+      <p class="nav-label">WORKSPACE</p>
+      <nav class="nav-menu" aria-label="Main navigation">
+        <a class="nav-item active" href="#overview" data-section="overview"><span class="nav-icon">⌂</span><span class="nav-text">Overview</span></a>
+        <a class="nav-item" href="#map" data-section="map"><span class="nav-icon">⌖</span><span class="nav-text">City map</span></a>
+        <a class="nav-item" href="#bins" data-section="bins"><span class="nav-icon">▤</span><span class="nav-text">Smart bins</span><span class="nav-count" id="navBinCount">—</span></a>
+        <a class="nav-item" href="#routes" data-section="routes"><span class="nav-icon">⌁</span><span class="nav-text">Collection routes</span></a>
+        <a class="nav-item" href="#wasteAnalysis" data-section="wasteAnalysis"><span class="nav-icon">✳</span><span class="nav-text">Waste intelligence</span></a>
+        <a class="nav-item" href="#complaints" data-section="complaints"><span class="nav-icon">▧</span><span class="nav-text">Citizen complaints</span></a>
+        <a class="nav-item" href="#analytics" data-section="analytics"><span class="nav-icon">▥</span><span class="nav-text">Analytics</span></a>
+      </nav>
 
-  </aside>
+      <p class="nav-label nav-label-secondary">PREFERENCES</p>
+      <nav class="nav-menu" aria-label="Application preferences">
+        <a class="nav-item" href="#settings" data-section="settings"><span class="nav-icon">⚙</span><span class="nav-text">Settings</span></a>
+      </nav>
 
-
-  <!-- MAIN CONTENT -->
-  <main class="main-content" id="overview">
-
-    <!-- TOPBAR -->
-    <header class="topbar">
-
-      <div class="topbar-left">
-
-        <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu">
-          ☰
-        </button>
-
-        <div class="breadcrumb">
-          Workspace <span>/</span> <strong>Overview</strong>
+      <div class="sidebar-bottom">
+        <div class="sidebar-connection">
+          <span class="connection-indicator" id="apiDot"></span>
+          <span><small>BACKEND CONNECTION</small><strong id="apiStatus">Checking…</strong></span>
+          <span class="connection-dot-label" id="systemStatus">Checking</span>
         </div>
-
+        <a class="sidebar-home-link" href="/"><span aria-hidden="true">↗</span> Public platform overview</a>
+        <div class="sidebar-version">URBANPULSE AI <span>·</span> RESEARCH PROTOTYPE</div>
       </div>
+    </aside>
+    <button class="sidebar-scrim" id="sidebarScrim" type="button" aria-label="Close navigation" tabindex="-1"></button>
 
-      <div class="topbar-right">
-
-        <div class="live-pill" id="systemStatus">
-          <span class="pulse-dot"></span> SYSTEM ONLINE
+    <div class="main-content">
+      <header class="topbar">
+        <div class="topbar-left">
+          <button class="menu-toggle" id="menuToggle" type="button" aria-label="Open navigation" aria-expanded="false">☰</button>
+          <div class="breadcrumb"><span>Workspace</span><span class="breadcrumb-separator">/</span><strong id="currentSectionTitle">Overview</strong></div>
         </div>
-
-        <button class="icon-button" aria-label="Notifications">♧<i></i></button>
-
-        <div class="top-avatar">CO</div>
-
-      </div>
-
-    </header>
-
-
-    <section class="page-content">
-
-      <!-- PAGE HEADING -->
-      <div class="page-heading">
-
-        <div>
-
-          <div class="eyebrow">
-            SMART WASTE MANAGEMENT PLATFORM
-          </div>
-
-          <h1>City overview<span>.</span></h1>
-
-          <p>
-            Monitor, predict and optimize waste operations from one intelligent workspace.
-          </p>
-
+        <div class="topbar-right">
+          <span class="workspace-status"><i></i> DEMO WORKSPACE</span>
+          <span class="topbar-divider"></span>
+          <span class="topbar-date" id="todayDate">—</span>
+          <span class="topbar-api" id="apiEnvironment">Local API</span>
         </div>
+      </header>
 
-        <div class="heading-actions">
-
-          <span class="date-chip" id="todayDate">Loading date...</span>
-
-          <button class="primary-button" id="refreshBtn">
-            <span>↻</span> Refresh data
-          </button>
-
-        </div>
-
-      </div>
-
-
-      <!-- DATA NOTICE -->
-      <div class="notice-banner">
-
-        <span class="notice-icon">ⓘ</span>
-
-        <div>
-          <strong>Prototype data mode</strong>
-
-          <p>
-            This dashboard represents one historical smart-bin dataset (2018–2020).
-            It is not live city-wide IoT telemetry.
-          </p>
-        </div>
-
-        <span class="notice-tag">TRANSPARENT DATA</span>
-
-      </div>
-
-
-      <!-- PERFORMANCE -->
-      <div class="section-title-row">
-
-        <div>
-          <h2>Performance snapshot</h2>
-          <p>Model and dataset indicators</p>
-        </div>
-
-        <span class="subtle-label">HISTORICAL BASELINE</span>
-
-      </div>
-
-
-      <div class="metrics-grid">
-
-        <article class="metric-card">
-
-          <div class="metric-head">
-            <span class="metric-icon green">▤</span>
-            <span class="metric-label">Prototype bins</span>
-            <span class="metric-menu">•••</span>
-          </div>
-
-          <div class="metric-value" id="totalBins">--</div>
-
-          <div class="metric-foot">
-            <span class="status-tag neutral">Single-bin dataset</span>
-            <span class="metric-note">Available sample</span>
-          </div>
-
-        </article>
-
-
-        <article class="metric-card">
-
-          <div class="metric-head">
-            <span class="metric-icon blue">◷</span>
-            <span class="metric-label">Historical records</span>
-            <span class="metric-menu">•••</span>
-          </div>
-
-          <div class="metric-value" id="totalRecords">--</div>
-
-          <div class="metric-foot">
-            <span class="status-tag info">After deduplication</span>
-            <span class="metric-note">2018–2020</span>
-          </div>
-
-        </article>
-
-
-        <article class="metric-card">
-
-          <div class="metric-head">
-            <span class="metric-icon amber">⌁</span>
-            <span class="metric-label">Model test MAE</span>
-            <span class="metric-menu">•••</span>
-          </div>
-
-          <div class="metric-value">
-            1.32<span class="metric-unit">/ 10</span>
-          </div>
-
-          <div class="metric-foot">
-            <span class="status-tag good">HistGradientBoosting</span>
-            <span class="metric-note">Lower is better</span>
-          </div>
-
-        </article>
-
-
-        <article class="metric-card">
-
-          <div class="metric-head">
-            <span class="metric-icon violet">✳</span>
-            <span class="metric-label">Test R² score</span>
-            <span class="metric-menu">•••</span>
-          </div>
-
-          <div class="metric-value">0.488</div>
-
-          <div class="metric-foot">
-            <span class="status-tag info">Chronological split</span>
-            <span class="metric-note">Held-out test set</span>
-          </div>
-
-        </article>
-
-      </div>
-
-
-      <!-- MAIN CONTENT GRID -->
-      <div class="content-grid">
-
-
-        <!-- HISTORICAL CHART -->
-        <section class="panel chart-panel" id="analytics">
-
-          <div class="panel-heading">
-
+      <main class="page-content">
+        <section class="page-section" id="overview" data-page-title="Overview">
+          <div class="page-heading">
             <div>
-              <h3>Fill-level history</h3>
-              <p>Research observations from the prototype bin (2018–2020)</p>
+              <p class="eyebrow">CIVIC OPERATIONS / OVERVIEW</p>
+              <h1>City overview<span class="title-period">.</span></h1>
+              <p class="page-intro">A grounded view of the available research data and recorded citizen reports.</p>
             </div>
-
-            <span class="panel-badge">HISTORICAL RESEARCH DATA</span>
-
+            <button class="button button-outline" id="refreshBtn" type="button"><span aria-hidden="true">↻</span> Refresh data</button>
           </div>
 
-          <div class="chart-legend">
-            <span><i class="legend-dot"></i> Observed fill level</span>
-            <span class="chart-scale">Scale: 0–10 · not live IoT</span>
+          <div class="notice-banner">
+            <span class="notice-icon" aria-hidden="true">i</span>
+            <div><strong>Research prototype · historical data mode</strong><p>One prototype bin with cleaned observations from 2018–2020. No live city-wide IoT network or verified bin coordinates are connected.</p></div>
+            <span class="notice-tag">DATA CONTEXT</span>
           </div>
 
-          <div class="chart-stats" id="historyStats">
-            <span>Observations: <strong id="historyCount">--</strong></span>
-            <span>Min: <strong id="historyMin">--</strong></span>
-            <span>Max: <strong id="historyMax">--</strong></span>
-            <span>Average: <strong id="historyAvg">--</strong></span>
+          <div class="section-title-row">
+            <div><h2>Available data</h2><p>Current records and sources reported by the connected services</p></div>
+            <span class="subtle-label">LIVE API STATUS · HISTORICAL DATA</span>
+          </div>
+          <div class="metrics-grid">
+            <article class="metric-card">
+              <div class="metric-head"><span class="metric-icon green">▤</span><span class="metric-label">Prototype bin</span></div>
+              <div class="metric-value" id="totalBins">—</div>
+              <div class="metric-foot"><span class="status-tag neutral">One research sample</span><span class="metric-note">No live devices</span></div>
+            </article>
+            <article class="metric-card">
+              <div class="metric-head"><span class="metric-icon blue">◷</span><span class="metric-label">Historical observations</span></div>
+              <div class="metric-value" id="totalRecords">—</div>
+              <div class="metric-foot"><span class="status-tag info">Cleaned CSV</span><span class="metric-note">2018–2020</span></div>
+            </article>
+            <article class="metric-card">
+              <div class="metric-head"><span class="metric-icon amber">◉</span><span class="metric-label">Latest recorded fill</span></div>
+              <div class="metric-value"><span id="overviewLatestFill">—</span><span class="metric-unit">/ 10</span></div>
+              <div class="metric-foot"><span class="status-tag neutral">Historical reading</span><span class="metric-note" id="overviewLatestDate">Date unavailable</span></div>
+            </article>
+            <article class="metric-card">
+              <div class="metric-head"><span class="metric-icon forest">▧</span><span class="metric-label">Registered complaints</span></div>
+              <div class="metric-value" id="overviewComplaintTotal">—</div>
+              <div class="metric-foot"><span class="status-tag good">SQLite records</span><span class="metric-note">Actual stored reports</span></div>
+            </article>
           </div>
 
-          <div class="chart-wrap">
-
-            <div class="y-axis">
-              <span>10</span>
-              <span>8</span>
-              <span>6</span>
-              <span>4</span>
-              <span>2</span>
-              <span>0</span>
-            </div>
-
-            <div class="chart-area">
-
-              <div class="grid-lines">
-                <i></i><i></i><i></i><i></i><i></i><i></i>
+          <div class="overview-grid">
+            <article class="panel overview-prediction">
+              <div class="panel-heading">
+                <div><p class="eyebrow">MODEL OUTPUT</p><h2>Next-observation estimate</h2></div>
+                <span class="panel-badge">HISTORICAL FEATURES</span>
               </div>
-
-              <svg id="historyChart" viewBox="0 0 760 220" preserveAspectRatio="none" role="img" aria-label="Historical smart-bin fill level, 2018 to 2020 research data">
-
-                <defs>
-                  <linearGradient id="areaFill" x1="0" x2="0" y1="0" y2="1">
-                    <stop offset="0%" stop-color="#28c995" stop-opacity=".28"/>
-                    <stop offset="100%" stop-color="#28c995" stop-opacity="0"/>
-                  </linearGradient>
-                </defs>
-
-                <path id="historyArea" class="chart-area-fill" d=""/>
-
-                <path id="historyLine" class="chart-line" d=""/>
-
-              </svg>
-
-              <div class="x-axis" id="historyXAxis">
-                <span>--</span>
-                <span>--</span>
-                <span>--</span>
-                <span>--</span>
-                <span>--</span>
+              <div class="prediction-box">
+                <div><span class="small-label">ESTIMATED FILL LEVEL</span><h2><span id="predictedFill">—</span><small> / 10</small></h2><p class="prediction-bin">Bin <strong id="predictionBinId">—</strong></p></div>
+                <div class="prediction-info"><span id="predictionStatus" role="status">Waiting for API…</span><small>Target date <strong id="predictionDate">—</strong></small></div>
               </div>
+              <dl class="prediction-context">
+                <div><dt>Last historical observation</dt><dd id="predictionBaseDate">—</dd></div>
+                <div><dt>Model</dt><dd id="predictionModel">—</dd></div>
+                <div><dt>Dataset observations</dt><dd id="predictionDatasetCount">—</dd></div>
+              </dl>
+              <p class="prediction-explanation">This estimate uses historical fill-level observations and engineered time-series features.</p>
+              <p class="prediction-disclaimer">Research prototype based on historical data. This is not a live sensor reading or real-time collection recommendation.</p>
+              <button id="generatePredictionBtn" class="button button-secondary" type="button">Generate estimate</button>
+            </article>
 
-            </div>
-
+            <article class="panel overview-services">
+              <div class="panel-heading"><div><p class="eyebrow">PLATFORM CAPABILITIES</p><h2>Service status</h2></div></div>
+              <div class="service-status-list">
+                <div class="service-status-item"><span class="service-symbol">◷</span><span><strong>Historical analytics</strong><small>Cleaned CSV · 2018–2020</small></span><b class="service-ready">Available</b></div>
+                <div class="service-status-item"><span class="service-symbol">✳</span><span><strong>Waste image analysis</strong><small>Gemini Vision · provider-dependent</small></span><b class="service-on-demand">On demand</b></div>
+                <div class="service-status-item"><span class="service-symbol">⌁</span><span><strong>Route optimizer</strong><small>OR-Tools · illustrative points</small></span><b class="service-ready">Available</b></div>
+                <div class="service-status-item"><span class="service-symbol">▧</span><span><strong>Citizen register</strong><small>Project-local SQLite database</small></span><b class="service-ready">Available</b></div>
+              </div>
+              <p class="service-footnote">Availability labels describe connected features; third-party service status may change per request.</p>
+            </article>
           </div>
 
-          <p class="chart-disclaimer" id="historyDisclaimer">
-            Historical research dataset (2018–2020). These are cleaned observed readings, not live IoT telemetry.
-          </p>
-
+          <div class="overview-grid overview-lower">
+            <article class="panel recent-activity-panel">
+              <div class="panel-heading"><div><p class="eyebrow">CITIZEN OPERATIONS</p><h2>Recent complaint activity</h2></div><a class="text-link" href="#complaints">Open register <span aria-hidden="true">→</span></a></div>
+              <div id="recentComplaints" class="recent-complaints" aria-live="polite"><div class="empty-state compact-empty">Loading records from SQLite…</div></div>
+            </article>
+            <article class="panel data-source-panel">
+              <div class="panel-heading"><div><p class="eyebrow">DATA PROVENANCE</p><h2>What this console represents</h2></div><span class="source-icon">i</span></div>
+              <ul class="source-list">
+                <li><span>01</span><p><strong>One prototype bin</strong><small>Historical readings only. No verified coordinates are available.</small></p></li>
+                <li><span>02</span><p><strong>Illustrative route points</strong><small>Editable test coordinates, not real collection infrastructure.</small></p></li>
+                <li><span>03</span><p><strong>Citizen reports</strong><small>Totals and activity come from persisted complaint records.</small></p></li>
+              </ul>
+            </article>
+          </div>
         </section>
 
-
-        <!-- SMART BIN -->
-        <section class="panel bin-panel" id="bins">
-
-          <div class="panel-heading">
-
-            <div>
-              <h3>Prototype bin status</h3>
-              <p>Registered historical sample</p>
-            </div>
-
-            <span class="online-tag">
-              <i></i> DATA AVAILABLE
-            </span>
-
+        <section class="page-section" id="map" data-page-title="City map">
+          <div class="page-heading">
+            <div><p class="eyebrow">GEOSPATIAL WORKSPACE</p><h1>City map<span class="title-period">.</span></h1><p class="page-intro">Only records with supplied geographic coordinates can appear as operational markers.</p></div>
           </div>
-
-
-          <div class="bin-identity">
-
-            <div class="bin-illustration">
-              <span>▤</span>
-              <i></i>
+          <div class="map-data-banner"><span>!</span><p><strong>No verified prototype bin coordinates are available.</strong> Complaints without coordinates stay in the register and are not placed on this map. The route layer is illustrative only.</p></div>
+          <div class="panel city-map-panel">
+            <div class="map-toolbar">
+              <div><strong>Available geographic records</strong><small id="cityMapStatus" role="status">Preparing map layers…</small></div>
+              <div class="map-layer-controls" role="group" aria-label="Map layers">
+                <label><input id="mapShowBins" type="checkbox" checked /> Prototype bins</label>
+                <label><input id="mapShowComplaints" type="checkbox" checked /> Geolocated complaints</label>
+                <label><input id="mapShowRoute" type="checkbox" /> Illustrative route</label>
+              </div>
             </div>
-
-            <div>
-              <strong id="binName">BIN-PROTOTYPE-01</strong>
-              <small>Smart bin · Historical dataset</small>
+            <div id="cityMap" class="city-map" role="region" aria-label="City map showing available complaint coordinates and optional illustrative route"></div>
+            <div class="map-legend">
+              <span><i class="legend-marker complaint-marker"></i> Complaint with submitted coordinates</span>
+              <span><i class="legend-marker bin-marker"></i> Verified bin coordinates</span>
+              <span><i class="legend-line"></i> Illustrative optimizer route</span>
             </div>
-
+            <p class="map-attribution">Map tiles © OpenStreetMap contributors · Complaint markers use citizen-submitted coordinates · Route coordinates are illustrative</p>
+            <div id="cityMapEmpty" class="empty-state map-empty-state">No verified bin coordinates or geolocated complaints are currently available. You can still review all complaints in the register.</div>
           </div>
-
-
-          <div class="fill-level-row">
-
-            <span>Latest recorded fill level</span>
-
-            <strong>
-              <span id="latestFill">--</span>
-              <small>/ 10</small>
-            </strong>
-
-          </div>
-
-
-          <div class="progress-track">
-            <span id="fillProgress" style="width:0%"></span>
-          </div>
-
-
-          <div class="bin-details">
-
-            <div>
-              <small>Last observation</small>
-              <strong id="lastObservation">Loading...</strong>
-            </div>
-
-            <div>
-              <small>Observed scale</small>
-              <strong>0 – 10</strong>
-            </div>
-
-            <div>
-              <small>Data source</small>
-              <strong>Historical CSV</strong>
-            </div>
-
-            <div>
-              <small>Sensor connection</small>
-              <strong class="muted-value">Not available</strong>
-            </div>
-
-          </div>
-
-
-          <button class="outline-button" id="viewBinBtn">
-            View bin details <span>→</span>
-          </button>
-
         </section>
 
-      </div>
-
-
-      <!-- BOTTOM GRID -->
-      <div class="bottom-grid">
-
-
-        <!-- ML INTELLIGENCE -->
-        <section class="panel model-panel" id="intelligence">
-
-          <div class="panel-heading">
-
-            <div>
-              <h3>ML intelligence</h3>
-              <p>Champion model evaluation</p>
-            </div>
-
-            <span class="model-chip">SCIKIT-LEARN</span>
-
+        <section class="page-section" id="bins" data-page-title="Smart bins">
+          <div class="page-heading">
+            <div><p class="eyebrow">HISTORICAL BIN INTELLIGENCE</p><h1>Smart bins<span class="title-period">.</span></h1><p class="page-intro">A dedicated view of the single prototype bin and the data available for it.</p></div>
+            <a class="button button-outline" href="#analytics">View historical analytics <span aria-hidden="true">→</span></a>
           </div>
-
-
-          <div class="model-name">
-
-            <div class="model-symbol">✳</div>
-
-            <div>
-              <strong>HistGradientBoosting</strong>
-              <small>Fill-level prediction model</small>
-            </div>
-
-            <span class="champion">CHAMPION</span>
-
+          <div class="notice-banner"><span class="notice-icon">i</span><div><strong>One research prototype · not live connected</strong><p>The inventory reflects a single historical research sample. Geographic coordinates and live sensor readings are not available.</p></div><span class="notice-tag">SOURCE: CLEANED CSV</span></div>
+          <div class="bin-detail-grid">
+            <article class="panel bin-panel">
+              <div class="panel-heading"><div><p class="eyebrow">REGISTERED SAMPLE</p><h2 id="binName">BIN-PROTOTYPE-01</h2></div><span class="online-tag"><i></i> HISTORICAL DATA</span></div>
+              <div class="bin-highlight"><div class="bin-icon">▤</div><div><span class="small-label">LATEST RECORDED FILL LEVEL</span><strong><span id="latestFill">—</span><small> / 10</small></strong><div class="progress-track"><span id="fillProgress" style="width:0%"></span></div></div></div>
+              <div class="bin-details">
+                <div><small>Last observation</small><strong id="lastObservation">—</strong></div>
+                <div><small>Dataset size</small><strong><span id="binRecordCount">—</span> observations</strong></div>
+                <div><small>Data source</small><strong>Cleaned historical CSV</strong></div>
+                <div><small>Sensor connection</small><strong class="muted-value">Not connected</strong></div>
+                <div><small>Geographic coordinates</small><strong class="muted-value">Not available</strong></div>
+                <div><small>Observed scale</small><strong>0–10 fill-level units</strong></div>
+              </div>
+              <a class="button button-secondary" id="viewBinBtn" href="#analytics">View historical observations <span aria-hidden="true">→</span></a>
+            </article>
+            <article class="panel prediction-details-panel">
+              <div class="panel-heading"><div><p class="eyebrow">HISTORICAL MODEL</p><h2>Prediction details</h2></div><span class="model-chip">SCIKIT-LEARN</span></div>
+              <div class="prediction-large"><span class="small-label">NEXT-OBSERVATION ESTIMATE</span><strong><span id="binPredictionValue">—</span><small> / 10</small></strong><span id="binPredictionStatus" role="status">Loading model output…</span></div>
+              <dl class="prediction-context bin-prediction-context">
+                <div><dt>Prediction date</dt><dd id="binPredictionDate">—</dd></div>
+                <div><dt>Historical base date</dt><dd id="binPredictionBaseDate">—</dd></div>
+                <div><dt>Model</dt><dd id="binPredictionModel">—</dd></div>
+              </dl>
+              <p class="prediction-explanation">The model uses lagged readings, rolling means, weekday and month features.</p>
+              <p class="prediction-disclaimer">Historical research estimate only; not a live sensor reading or collection recommendation.</p>
+              <button id="binGeneratePredictionBtn" class="button button-secondary" type="button">Refresh estimate</button>
+            </article>
           </div>
+          <article class="panel recent-readings-panel">
+            <div class="panel-heading"><div><p class="eyebrow">OBSERVATION REGISTER</p><h2>Most recent historical readings</h2><p>Latest rows from the cleaned dataset, newest first</p></div><a class="text-link" href="#analytics">Full analytics <span aria-hidden="true">→</span></a></div>
+            <div class="table-wrap"><table class="data-table"><thead><tr><th>Observation date</th><th>Fill level</th><th>Source</th></tr></thead><tbody id="recentHistoryRows"><tr><td colspan="3">Loading historical observations…</td></tr></tbody></table></div>
+          </article>
+        </section>
 
-
-          <div class="model-stats">
-
-            <div>
-              <small>Mean absolute error</small>
-              <strong>1.3166</strong>
-            </div>
-
-            <div>
-              <small>Root mean squared error</small>
-              <strong>1.6212</strong>
-            </div>
-
-            <div>
-              <small>R² score</small>
-              <strong>0.4878</strong>
-            </div>
-
+        <section class="page-section" id="routes" data-page-title="Collection routes">
+          <div class="page-heading"><div><p class="eyebrow">OR-TOOLS COLLECTION PLANNING</p><h1>Collection routes<span class="title-period">.</span></h1><p class="page-intro">Optimize an editable single-vehicle sequence with a documented straight-line distance model.</p></div></div>
+          <p class="route-demo-notice"><strong>Illustrative demo only.</strong> The provided points are fictional test coordinates, not verified bin locations or real operations. Edit or add stops before optimizing.</p>
+          <div class="route-workspace">
+            <article class="panel route-input-panel">
+              <div class="panel-heading"><div><p class="eyebrow">ROUTE INPUT</p><h2>Depot and collection stops</h2></div><span class="panel-badge">EDITABLE</span></div>
+              <div class="route-depot-grid">
+                <label>Depot name<input id="routeDepotName" type="text" maxlength="80" value="Illustrative depot" /></label>
+                <label>Latitude<input id="routeDepotLatitude" type="number" min="-90" max="90" step="any" value="37.5665" /></label>
+                <label>Longitude<input id="routeDepotLongitude" type="number" min="-180" max="180" step="any" value="126.9780" /></label>
+              </div>
+              <div class="route-stops-heading"><div><h3>Stops</h3><p id="routeStopCount">Loading illustrative stops…</p></div><button type="button" class="button button-outline" id="addRouteStopBtn">+ Add stop</button></div>
+              <div class="route-stop-list" id="routeStopList" aria-live="polite"></div>
+              <div class="route-actions"><button type="button" class="button button-primary" id="optimizeRouteBtn"><span aria-hidden="true">⌁</span> Optimize route</button><p id="routeStatus" class="route-status" role="status" aria-live="polite">Ready to optimize illustrative stops.</p></div>
+              <p class="route-error" id="routeError" role="alert" hidden></p>
+            </article>
+            <article class="panel route-output-panel">
+              <div class="panel-heading"><div><p class="eyebrow">OPTIMIZATION OUTPUT</p><h2>Collection sequence</h2></div><span class="panel-badge">STRAIGHT-LINE ESTIMATE</span></div>
+              <div class="route-results" id="routeResults" hidden>
+                <div class="route-summary">
+                  <div><span>Estimated distance</span><strong id="routeDistance">—</strong></div>
+                  <div><span>Collection stops</span><strong id="routeResultStopCount">—</strong></div>
+                  <div><span>Solver status</span><strong id="routeOptimizationStatus">—</strong></div>
+                </div>
+                <ol class="route-ordered-stops" id="routeOrderedStops"></ol>
+                <p id="routeMethodology" class="route-methodology"></p>
+                <p class="route-illustrative-warning">Not road navigation, live dispatch, or an operational collection recommendation.</p>
+                <a class="text-link route-map-link" href="#map" id="viewRouteMapBtn">View illustrative route on city map <span aria-hidden="true">→</span></a>
+              </div>
+              <div class="route-empty-state" id="routeInitialState"><span>⌁</span><strong>Your optimized sequence will appear here.</strong><p>Submit the editable illustrative stops to calculate a route.</p></div>
+              <div class="route-map-shell">
+                <div class="route-map-heading"><strong>Illustrative route preview</strong><span id="routeMapStatus">Map will show the optimized stop order.</span></div>
+                <div id="routeMap" class="route-map" role="region" aria-label="Illustrative optimized collection route map"></div>
+                <div class="route-map-attribution">Illustrative sample coordinates · Map tiles © OpenStreetMap contributors</div>
+              </div>
+            </article>
           </div>
+        </section>
 
+        <section class="page-section" id="wasteAnalysis" data-page-title="Waste intelligence">
+          <div class="page-heading"><div><p class="eyebrow">GEMINI VISION · IMAGE ANALYSIS</p><h1>Waste intelligence<span class="title-period">.</span></h1><p class="page-intro">Request an image assessment based only on what is visibly present in the photo.</p></div></div>
+          <div class="ai-disclaimer"><span>!</span><p><strong>Evidence-led, provider-dependent analysis.</strong> No result is shown until the image is analyzed. When the AI provider is overloaded, the console asks you to retry instead of making up a classification.</p></div>
+          <div class="waste-workspace">
+            <article class="panel waste-analysis-panel">
+              <div class="panel-heading"><div><p class="eyebrow">IMAGE INPUT</p><h2>Upload waste image</h2></div><span class="panel-badge">JPEG · PNG · WEBP</span></div>
+              <form id="wasteAnalysisForm" class="waste-analysis-form">
+                <label class="waste-upload-label" for="wasteImage">Select or drop an image <span>Maximum 8 MB</span></label>
+                <div class="waste-drop-zone" id="wasteDropZone">
+                  <span class="upload-mark" aria-hidden="true">↑</span><strong>Drop an image here</strong><span>or choose a file from your device</span>
+                  <input id="wasteImage" name="image" type="file" accept="image/jpeg,image/png,image/webp" required />
+                  <label for="wasteImage" class="button button-outline">Choose image</label>
+                </div>
+                <div class="waste-upload-preview" id="wasteUploadPreview" hidden><img id="wastePreviewImage" alt="Selected waste image preview" /><span id="wasteFileName"></span></div>
+                <div class="waste-form-actions"><button type="submit" class="button button-primary" id="analyzeWasteBtn"><span aria-hidden="true">✳</span> Analyze image</button><p class="waste-analysis-status" id="wasteAnalysisStatus" role="status" aria-live="polite">Select an image to begin.</p></div>
+                <p class="waste-analysis-error" id="wasteAnalysisError" role="alert" hidden></p>
+              </form>
+            </article>
+            <section class="panel waste-analysis-result" id="wasteAnalysisResult" aria-labelledby="wasteResultHeading" hidden>
+              <div class="panel-heading"><div><p class="eyebrow">STRUCTURED ASSESSMENT</p><h2 id="wasteResultHeading">Analysis result</h2></div><span class="waste-severity" id="wasteSeverity"></span></div>
+              <dl class="waste-result-grid"><div><dt>Category</dt><dd id="wasteCategory"></dd></div><div><dt>Visible accumulation</dt><dd id="wasteAccumulation"></dd></div><div><dt>Overflow</dt><dd id="wasteOverflow"></dd></div></dl>
+              <p class="waste-result-copy" id="wasteExplanation"></p>
+              <div class="waste-result-action"><strong>Recommended action</strong><span id="wasteRecommendedAction"></span></div>
+              <p class="waste-uncertainty" id="wasteUncertainty" hidden></p>
+              <p class="waste-result-disclaimer">AI assessment is based on visible image evidence and may be uncertain.</p>
+            </section>
+          </div>
+        </section>
 
-          <!-- ACTUAL ML PREDICTION -->
-          <div class="prediction-box">
-    <div>
-        <span class="card-label">AI FILL-LEVEL FORECAST</span>
-        <h2>
-            <span id="predictedFill">--</span>
-            <small>/ 10</small>
-        </h2>
+        <section class="page-section" id="complaints" data-page-title="Citizen complaints">
+          <div class="page-heading"><div><p class="eyebrow">CITIZEN RESPONSE WORKSPACE</p><h1>Citizen complaints<span class="title-period">.</span></h1><p class="page-intro">Register reports, review stored records and track status changes.</p></div><button type="button" class="button button-outline" id="refreshComplaintsBtn">Refresh register</button></div>
+          <p class="complaint-data-notice">Complaint statistics and rows are loaded from this project’s SQLite database. No illustrative or sample complaints are included.</p>
+          <div class="complaint-metrics" aria-live="polite">
+            <div><span>Total registered</span><strong id="complaintTotal">—</strong></div><div><span>Submitted</span><strong id="complaintSubmitted">—</strong></div><div><span>In progress</span><strong id="complaintInProgress">—</strong></div><div><span>Resolved</span><strong id="complaintResolved">—</strong></div>
+          </div>
+          <div class="complaint-layout">
+            <section class="panel complaint-form-card" aria-labelledby="complaintFormTitle">
+              <div class="panel-heading"><div><p class="eyebrow">CITIZEN PORTAL</p><h2 id="complaintFormTitle">Register a complaint</h2></div></div>
+              <form id="citizenComplaintForm" enctype="multipart/form-data">
+                <label>Citizen name<input name="citizen_name" type="text" minlength="2" maxlength="100" autocomplete="name" required /></label>
+                <label>Contact<input name="contact" type="text" minlength="3" maxlength="120" autocomplete="email" required /></label>
+                <label>Category<select name="category" required><option value="">Select a category</option><option>Garbage Overflow</option><option>Uncollected Waste</option><option>Illegal Dumping</option><option>Damaged Dustbin</option><option>Other</option></select></label>
+                <label>Priority<select name="priority"><option value="Low">Low</option><option value="Medium" selected>Medium</option><option value="High">High</option></select></label>
+                <label class="complaint-form-wide">Description<textarea name="description" rows="4" minlength="10" maxlength="2000" required></textarea></label>
+                <label class="complaint-form-wide">Location<input name="location" type="text" maxlength="200" placeholder="Street, landmark or area" required /></label>
+                <div class="complaint-coordinate-fields">
+                  <label>Latitude <span class="optional-label">optional</span><input name="latitude" type="number" min="-90" max="90" step="any" /></label>
+                  <label>Longitude <span class="optional-label">optional</span><input name="longitude" type="number" min="-180" max="180" step="any" /></label>
+                </div>
+                <label class="complaint-form-wide">Attach photo <span class="optional-label">Optional · JPEG, PNG or WebP · up to 5 MB</span><input id="complaintImage" name="image" type="file" accept="image/jpeg,image/png,image/webp" /></label>
+                <div class="complaint-image-preview" id="complaintImagePreview" hidden><img id="complaintImagePreviewImg" alt="Selected complaint photo preview" /><span>Photo preview</span></div>
+                <div class="complaint-form-actions"><button class="button button-primary" id="submitComplaintBtn" type="submit">Submit complaint</button><p id="complaintFormStatus" role="status" aria-live="polite"></p></div>
+                <p class="complaint-form-error" id="complaintFormError" role="alert" hidden></p><p class="complaint-success" id="complaintFormSuccess" role="status" hidden></p>
+              </form>
+            </section>
+            <section class="panel complaint-admin-card" aria-labelledby="complaintAdminTitle">
+              <div class="complaint-admin-heading"><div><p class="eyebrow">OPERATIONS REGISTER</p><h2 id="complaintAdminTitle">Stored complaints</h2><p>Search and update records from SQLite</p></div></div>
+              <div class="complaint-filters">
+                <label class="complaint-search-label">Search<input id="complaintSearch" type="search" placeholder="ID, category or location" autocomplete="off" /></label>
+                <label>Status<select id="complaintStatusFilter"><option value="">All statuses</option><option>Submitted</option><option>Under Review</option><option>In Progress</option><option>Resolved</option><option>Rejected</option></select></label>
+                <label>Category<select id="complaintCategoryFilter"><option value="">All categories</option><option>Garbage Overflow</option><option>Uncollected Waste</option><option>Illegal Dumping</option><option>Damaged Dustbin</option><option>Other</option></select></label>
+                <label>Priority<select id="complaintPriorityFilter"><option value="">All priorities</option><option>Low</option><option>Medium</option><option>High</option></select></label>
+              </div>
+              <p class="complaint-admin-error" id="complaintAdminError" role="alert" hidden></p>
+              <div class="complaint-empty-state" id="complaintEmptyState" hidden>No complaints match this view. Newly submitted records will appear here.</div>
+              <div class="complaint-table-wrap"><table class="complaint-table"><thead><tr><th>Complaint</th><th>Category / location</th><th>Submitted</th><th>Priority</th><th>Status</th><th>Actions</th></tr></thead><tbody id="complaintTableBody"></tbody></table></div>
+              <article class="complaint-detail-card" id="complaintDetail" hidden><div class="complaint-admin-heading"><div><p class="eyebrow">RECORD DETAIL</p><h3>Complaint details</h3></div><button type="button" class="button button-outline" id="closeComplaintDetailBtn">Close</button></div><p id="complaintDetailId"></p><p id="complaintDetailCitizen"></p><p id="complaintDetailContact"></p><p id="complaintDetailDescription"></p><a id="complaintDetailImage" target="_blank" rel="noopener noreferrer" hidden>Open attached photo</a></article>
+            </section>
+          </div>
+        </section>
+
+        <section class="page-section" id="analytics" data-page-title="Analytics">
+          <div class="page-heading"><div><p class="eyebrow">OBSERVATION & RESPONSE ANALYTICS</p><h1>Analytics<span class="title-period">.</span></h1><p class="page-intro">Explore the actual historical bin series and complaint records currently in SQLite.</p></div></div>
+          <div class="analytics-grid">
+            <section class="panel chart-panel historical-chart-panel">
+              <div class="panel-heading"><div><p class="eyebrow">PROTOTYPE BIN · 2018–2020</p><h2>Historical fill-level trend</h2><p>Cleaned observations across the available data period</p></div><span class="panel-badge">FILL-LEVEL UNITS</span></div>
+              <div class="chart-legend"><span><i class="legend-dot"></i> Observed fill level</span><span class="chart-scale">Scale: 0–10 · not live IoT</span></div>
+              <div class="chart-stats" id="historyStats"><span>Observations <strong id="historyCount">—</strong></span><span>Minimum <strong id="historyMin">—</strong></span><span>Maximum <strong id="historyMax">—</strong></span><span>Average <strong id="historyAvg">—</strong></span></div>
+              <div class="chart-wrap"><div class="y-axis" aria-hidden="true"><span>10</span><span>8</span><span>6</span><span>4</span><span>2</span><span>0</span></div><div class="chart-area"><div class="grid-lines" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></div><svg id="historyChart" viewBox="0 0 760 220" preserveAspectRatio="none" role="img" aria-label="Historical smart-bin fill level, rendered from cleaned research observations"><defs><linearGradient id="areaFill" x1="0" x2="0" y1="0" y2="1"><stop offset="0%" stop-color="var(--color-emerald)" stop-opacity=".2"/><stop offset="100%" stop-color="var(--color-emerald)" stop-opacity="0"/></linearGradient></defs><path id="historyArea" class="chart-area-fill" d=""></path><path id="historyLine" class="chart-line" d=""></path></svg><div class="x-axis" id="historyXAxis"><span>—</span><span>—</span><span>—</span><span>—</span><span>—</span></div></div></div>
+              <p class="chart-disclaimer" id="historyDisclaimer">Loading historical observations…</p>
+            </section>
+            <section class="panel complaint-analytics-panel"><div class="panel-heading"><div><p class="eyebrow">SQLITE · ALL STORED REPORTS</p><h2>Complaint categories</h2><p>Distribution of current complaint records</p></div></div><div class="analytics-bars" id="complaintCategoryChart"><div class="empty-state compact-empty">Loading complaint records…</div></div><p class="chart-disclaimer">Each bar is a count from the current complaint database.</p></section>
+            <section class="panel complaint-analytics-panel"><div class="panel-heading"><div><p class="eyebrow">SQLITE · ALL STORED REPORTS</p><h2>Complaint status</h2><p>Current register state</p></div></div><div class="analytics-bars" id="complaintStatusChart"><div class="empty-state compact-empty">Loading complaint records…</div></div><div class="resolution-summary"><span>Resolved records</span><strong id="resolutionRate">—</strong><small id="resolutionSummaryNote">No database records loaded</small></div></section>
+            <section class="panel complaint-analytics-panel complaint-trend-panel"><div class="panel-heading"><div><p class="eyebrow">SQLITE · CREATED DATE</p><h2>Complaint submissions over time</h2><p>Monthly totals grouped from stored creation timestamps</p></div></div><div class="analytics-bars trend-bars" id="complaintTrendChart"><div class="empty-state compact-empty">Loading complaint records…</div></div><p class="chart-disclaimer">Only actual SQLite records are included. Empty periods are not generated.</p></section>
+          </div>
+        </section>
+
+        <section class="page-section" id="settings" data-page-title="Settings">
+          <div class="page-heading"><div><p class="eyebrow">APPLICATION INFORMATION</p><h1>Settings<span class="title-period">.</span></h1><p class="page-intro">Configuration and data-source context for this research prototype.</p></div></div>
+          <div class="settings-grid">
+            <article class="panel settings-card"><p class="eyebrow">APPLICATION</p><h2>UrbanPulse AI</h2><p>Civic intelligence workspace for historical waste analytics, image-based assessment, illustrative collection planning and citizen complaint tracking.</p><dl><div><dt>Environment</dt><dd>Local research prototype</dd></div><div><dt>Interface</dt><dd>Operations console</dd></div></dl></article>
+            <article class="panel settings-card"><p class="eyebrow">DATA SOURCES</p><h2>Connected records</h2><ul class="settings-source-list"><li><strong>Bin history</strong><span>Cleaned CSV · 2018–2020 · one prototype bin</span></li><li><strong>Prediction</strong><span>Historical feature-based estimate · 0–10 scale</span></li><li><strong>Complaints</strong><span>Local SQLite database · actual stored records</span></li><li><strong>Route inputs</strong><span>User supplied or illustrative points</span></li></ul></article>
+            <article class="panel settings-card"><p class="eyebrow">API CONNECTION</p><h2>Backend status</h2><div class="settings-health"><span class="connection-indicator" id="settingsApiDot"></span><span><strong id="settingsApiStatus">Checking connection…</strong><small id="settingsApiDetails">Health endpoint not checked yet.</small></span></div><a class="text-link" href="/docs" target="_blank" rel="noopener noreferrer">Open API documentation <span aria-hidden="true">↗</span></a></article>
+            <article class="panel settings-card"><p class="eyebrow">THIRD-PARTY SERVICES</p><h2>Provider availability</h2><p>Gemini Vision analysis depends on backend configuration, provider access and quota. No API key or secret is exposed in this console.</p><p class="settings-note">AI analysis is requested only when an image is submitted; this page does not make a provider request.</p></article>
+          </div>
+        </section>
+
+        <footer class="footer"><a class="footer-brand" href="/">URBANPULSE <em>AI</em></a><span>Research prototype · historical and illustrative data are labelled by source</span><a href="/docs">API documentation <span aria-hidden="true">↗</span></a></footer>
+      </main>
     </div>
-
-    <div class="prediction-info">
-        <span id="predictionStatus">Waiting...</span>
-        <small id="predictionDate">Forecast date: --</small>
-    </div>
-</div>
-
-<button id="generatePredictionBtn" class="refresh-btn">
-    ⚡ Generate Prediction
-</button>   
-
-
-          <p class="small-note">
-            Model evaluated on a chronological held-out test set.
-            Predictions are bounded to the physical 0–10 scale.
-          </p>
-
-        </section>
-
-
-        <!-- CITY MAP -->
-        <section class="panel activity-panel" id="map">
-
-          <div class="panel-heading">
-
-            <div>
-              <h3>City operations map</h3>
-              <p>Geospatial layer status</p>
-            </div>
-
-            <span class="panel-badge muted-badge">COMING NEXT</span>
-
-          </div>
-
-
-          <div class="map-placeholder">
-
-            <div class="map-grid"></div>
-
-            <div class="map-pin">⌖</div>
-
-            <div class="map-center-label">
-              <strong>Map integration pending</strong>
-              <small>Leaflet + OpenStreetMap will be connected next.</small>
-            </div>
-
-            <span class="map-coord">
-              NO VERIFIED BIN COORDINATES
-            </span>
-
-          </div>
-
-        </section>
-
-      </div>
-
-
-      <!-- FOOTER -->
-      <footer class="footer">
-
-        <span>© 2026 UrbanPulse AI</span>
-
-        <span>
-          Built for smarter, cleaner cities <b>●</b>
-        </span>
-
-        <span>Prototype v1.0.0</span>
-
-      </footer>
-
-    </section>
-
-  </main>
-
-</div>
-
-
-<!-- TOAST -->
-<div class="toast" id="toast" role="status"></div>
-
-
-<script src="assets/js/app.js"></script>
-
+  </div>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  <script src="/assets/js/app.js"></script>
 </body>
 </html>
